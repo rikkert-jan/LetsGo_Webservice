@@ -24,8 +24,8 @@ var meetupSchema = new mongoose.Schema(
         dateTime:
         {
             type: String,
-            Default: Date.now,
-            required: true
+            //Default: Date.now,
+            required: false
         },
         invited: 
         {
@@ -33,8 +33,8 @@ var meetupSchema = new mongoose.Schema(
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
             }], 
-            Default: [null],
-            required: true
+            //Default: [null],
+            required: false
         },
         created_at:
         {
