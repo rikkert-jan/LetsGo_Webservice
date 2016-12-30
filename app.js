@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 // Data Access Layer
 //mongoose.Promise = global.Promise;
 mongoose.Promise = require('bluebird')
-mongoose.connect('mongodb://172.27.0.0/16/LetsGo');
+mongoose.connect('mongodb://developer:admin123@ds149278.mlab.com:49278/letsgo_database');
 // /Data Access Layer
 
 // Models
