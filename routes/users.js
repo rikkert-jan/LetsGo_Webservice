@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 /* FUNCTIONS */
 var getUsers = function(req, res, next) {
-    Users.find().exec(function(err, userData) {
+    User.find().exec(function(err, userData) {
         if (err)
             return next(err);
 
