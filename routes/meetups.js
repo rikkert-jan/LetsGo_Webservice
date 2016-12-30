@@ -8,7 +8,7 @@ var getMeetups = function(req, res, next) {
         if (err)
             return next(err);
 
-        res.jsonp(meetupData);
+        res.json(meetupData);
     });
 };
 
@@ -18,7 +18,7 @@ var getMeetupById = function(req, res, next) {
         if (err)
             return next(err);
 
-        res.jsonp(meetupData);
+        res.json(meetupData);
     });
 }
 
