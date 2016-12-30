@@ -24,15 +24,17 @@ var meetupSchema = new mongoose.Schema(
         dateTime:
         {
             type: String,
-            required: false
+            Default: Date.now,
+            required: true
         },
         invited: 
         {
             type: [{
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
-            }],
-            required: false
+            }], 
+            Default: [null],
+            required: true
         },
         created_at:
         {
