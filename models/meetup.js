@@ -23,7 +23,7 @@ var meetupSchema = new mongoose.Schema(
         },
         dateTime:
         {
-            type: Date,
+            type: String,
             required: true
         },
         invited: 
