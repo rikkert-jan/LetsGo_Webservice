@@ -24,7 +24,7 @@ var meetupSchema = new mongoose.Schema(
         dateTime:
         {
             type: String,
-            required: true
+            required: false
         },
         invited: 
         {
@@ -32,7 +32,7 @@ var meetupSchema = new mongoose.Schema(
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
             }],
-            required: true
+            required: false
         },
         created_at:
         {
