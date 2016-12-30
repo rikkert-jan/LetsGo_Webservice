@@ -8,7 +8,7 @@ var getUsers = function(req, res, next) {
         if (err)
             return next(err);
 
-        res.jsonp(userData);
+        res.json(userData);
     });
 };
 
@@ -18,7 +18,7 @@ var getUserById = function(req, res, next) {
         if (err)
             return next(err);
 
-        res.jsonp(userData);
+        res.json(userData);
     });
 }
 
