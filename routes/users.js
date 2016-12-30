@@ -24,9 +24,9 @@ var getUserById = function(req, res, next) {
 
 var createUser = function(req, res, next) {
     var user = new User({
-        name: req.params.name,
-        phoneNumber: req.params.phoneNumber,
-        password: req.params.password,
+        name: req.body.name,
+        phoneNumber: req.body.phoneNumber,
+        password: req.body.password,
     });
 
     user.save(function(err) {
@@ -34,6 +34,7 @@ var createUser = function(req, res, next) {
             return next(err);
 
         console.log('succesfully saved user to database');
+        res.json(user);
     });
 };
 

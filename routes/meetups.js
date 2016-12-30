@@ -24,11 +24,11 @@ var getMeetupById = function(req, res, next) {
 
 var createMeetup = function(req, res, next) {
     var meetup = new Meetup({
-        title: req.params.title,
-        location: req.params.location,
-        dateTime: req.params.dateTime,
-        description: req.params.description,
-        invited: req.params.invited
+        title: req.body.title,
+        location: req.body.location,
+        dateTime: req.body.dateTime,
+        description: req.body.description,
+        invited: req.body.invited
     });
 
     meetup.save(function(err) {
@@ -36,6 +36,7 @@ var createMeetup = function(req, res, next) {
             return next(err);
 
         console.log('succesfully saved meetup to database');
+        res.json(meetup);
     });
 };
 /* /FUNCTIONS */
