@@ -30,7 +30,7 @@ var createMeetup = function(req, res, next) {
         description: req.body.description,
         invited: []
     });
-
+    console.log(req.body.invitedNumbers);
     for (var i = 0; i < req.body.invitedNumbers.length; i++) {
         User.findOne({ phoneNumber: req.body.invitedNumbers[i] }).exec(function(err, userData) {
             if (err)
