@@ -14,7 +14,7 @@ var getMeetups = function(req, res, next) {
 
 var getMeetupById = function(req, res, next) {
     var id = req.params.id;
-    Meetup.find({_id: id}).populate('invited').exec(function(err, meetupData) {
+    Meetup.find({ _id: id }).populate('invited').exec(function(err, meetupData) {
         if (err)
             return next(err);
 
@@ -28,7 +28,13 @@ var createMeetup = function(req, res, next) {
         location: req.body.location,
         dateTime: req.body.dateTime,
         description: req.body.description,
-        invited: req.body.invited
+        invited: []
+    });
+
+    $.each(req.body.invitedNumbers, function(phoneNumberEntry) {
+        User.findOne({ phoneNumber: phoneNumberEntry }).exec(function(err, userData) {
+            meetup.invited.push({user: userData});
+        })
     });
 
     meetup.save(function(err) {
@@ -39,12 +45,19 @@ var createMeetup = function(req, res, next) {
         res.json(meetup);
     });
 };
+
+var updateUserStatus = function(req, res, next) {
+    /*TODO:
+        Find user and update the accepted field in the meetup
+    */
+}
 /* /FUNCTIONS */
 
 /* ROUTES */
 router.route('/').get(getMeetups);
 router.route('/:id').get(getMeetupById);
 router.route('/').post(createMeetup);
+router.route('/:id/users/:userId').put(updateUserStatus);
 /* /ROUTES */
 
 // Export

@@ -27,14 +27,26 @@ var meetupSchema = new mongoose.Schema(
             //Default: Date.now,
             required: false
         },
-        invited: 
+        invited:
         {
             type: [{
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-            }], 
-            //Default: [null],
+                user: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "User",
+                },
+                accepted: {
+                    type: Boolean,
+                    required: false,
+                    Default: null
+                }
+            }],
             required: false
+        },
+        created_by:
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: false // Must be true, but is false for testing purposes
         },
         created_at:
         {

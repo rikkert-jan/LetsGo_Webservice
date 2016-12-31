@@ -16,9 +16,17 @@ var userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        password:{
+        password:
+        {
             type: String,
             required: true
+        },
+        meetups: {
+            type: [{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Meetup",
+            }],
+            required: false
         }
     });
 
