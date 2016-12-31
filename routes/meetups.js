@@ -18,7 +18,7 @@ var getMeetupById = function(req, res, next) {
         if (err)
             return next(err);
 
-        res.json(meetupData);
+        res.json(meetupData[0]);
     });
 }
 
@@ -41,12 +41,20 @@ var createMeetup = function(req, res, next) {
 };
 
 var addUserToMeetup = function(req, res, next) {
-    User.findOne({ phoneNumber: req.body.invitedNumber }).exec(function(err, userData) {
+    var id = req.params.id;
+    Meetup.find({ _id: id }).populate('invited').exec(function(err, meetupData) {
         if (err)
-            console.log(err);
-        console.log(userData);
-        meetup.invited.push({ user: userData, accepted: null });// TODO: current user is admin!!
-    })
+            return next(err);
+            
+        User.find({ phoneNumber: req.body.invitedNumber }).exec(function(err, userData) {
+            if (err)
+                console.log(err);
+            console.log(userData[0]);
+            meetupData.invited.push({ user: userData[0], accepted: null });// TODO: current user is admin!!
+        });
+        meetupData.save();
+        res.json(meetupData[0]);
+    });
 }
 
 var updateUserStatus = function(req, res, next) {
