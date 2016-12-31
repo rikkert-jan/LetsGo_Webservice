@@ -35,6 +35,10 @@ var createMeetup = function(req, res, next) {
         User.findOne({ phoneNumber: phoneNumberEntry }).exec(function(err, userData) {
             if (err)
                 console.log(err);
+                
+            console.log("meetup.invited: " + meetup.invited);
+            console.log("userData: "+ userData);
+            
             meetup.invited.push({ user: userData });
         })
     });
