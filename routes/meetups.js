@@ -31,17 +31,14 @@ var createMeetup = function(req, res, next) {
         invited: []
     });
 
-    $.each(req.body.invitedNumbers, function(phoneNumberEntry) {
-        User.findOne({ phoneNumber: phoneNumberEntry }).exec(function(err, userData) {
+    for (var i = 0; i < req.body.invitedNumbers.length; i++) {
+        User.findOne({ phoneNumber: req.body.invitedNumbers[i] }).exec(function(err, userData) {
             if (err)
                 console.log(err);
-                
-            console.log("meetup.invited: " + meetup.invited);
-            console.log("userData: "+ userData);
-            
-            meetup.invited.push({ user: userData });
+
+            meetup.invited.push({ user: userData, accepted: null });
         })
-    });
+    }
 
     meetup.save(function(err) {
         if (err)
