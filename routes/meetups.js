@@ -44,7 +44,7 @@ var addUserToMeetup = function(req, res, next) {
     User.findOne({ phoneNumber: req.body.invitedNumber }).exec(function(err, userData) {
         if (err)
             console.log(err);
-
+        console.log(userData);
         meetup.invited.push({ user: userData, accepted: null });// TODO: current user is admin!!
     })
 }
