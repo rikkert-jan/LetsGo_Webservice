@@ -42,13 +42,14 @@ var createMeetup = function(req, res, next) {
 
 var addUserToMeetup = function(req, res, next) {
     var id = req.params.id;
-    var phoneNumber = req.param.phoneNumber;
+    var phoneNumber = req.body.invitedNumber;
 
     User.findOne({ phoneNumber: phoneNumber }).exec(function(err, userData) {
         if (err)
             return next(err);
 
         if (userData) {
+            console.log(userData);
             var userToAdd = {
                 user: userData,
                 accepted: null
@@ -56,7 +57,7 @@ var addUserToMeetup = function(req, res, next) {
             Meetup.findOneAndUpdate({ _id: id }, { $push: { invited: userToAdd } }).exec(function(err, meetupData) {
                 if (err)
                     return next(err);
-                    
+                 
                 res.json(meetupData);
             });
         }
