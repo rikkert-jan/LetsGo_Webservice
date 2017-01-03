@@ -42,18 +42,24 @@ var createMeetup = function(req, res, next) {
 
 var addUserToMeetup = function(req, res, next) {
     var id = req.params.id;
-    Meetup.find({ _id: id }).populate('invited').exec(function(err, meetupData) {
+    var phoneNumber = req.param.phoneNumber;
+
+    User.findOne({ phoneNumber: phoneNumber }).exec(function(err, userData) {
         if (err)
             return next(err);
-            
-        User.find({ phoneNumber: req.body.invitedNumber }).exec(function(err, userData) {
-            if (err)
-                console.log(err);
-            console.log(userData[0]);
-            meetupData.invited.push({ user: userData[0], accepted: null });// TODO: current user is admin!!
-        });
-        meetupData.save();
-        res.json(meetupData[0]);
+
+        if (userData) {
+            var userToAdd = {
+                user: userData,
+                accepted: null
+            }
+            Meetup.findOneAndUpdate({ _id: id }, { $push: { invited: userToAdd } }).exec(function(err, meetupData) {
+                if (err)
+                    return next(err);
+                    
+                res.json(meetupData);
+            });
+        }
     });
 }
 
@@ -69,7 +75,7 @@ router.route('/').get(getMeetups);
 router.route('/:id').get(getMeetupById);
 router.route('/').post(createMeetup);
 router.route('/:id/users').put(addUserToMeetup);
-router.route('/:id/users/:userId').put(updateUserStatus);
+router.route('/:id/users/:phoneNumber').put(updateUserStatus);
 /* /ROUTES */
 
 // Export
