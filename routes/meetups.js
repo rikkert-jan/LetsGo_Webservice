@@ -13,7 +13,7 @@ var getMeetups = function(req, res, next) {
 };
 
 var getMeetupByUser = function(req, res, next) {
-    var user = req.body.user;
+    var user = req.params.user;
 
     Meetup.findOne({ invited: {$contains: {user: user }}, due: false }).populate('invited').exec(function(err, meetupData) {
         if (err)
@@ -75,7 +75,7 @@ var updateUserStatus = function(req, res, next) {
 
 /* ROUTES */
 //router.route('/').get(getMeetups);
-router.route('/').get(getMeetupByUser);
+router.route('/:phoneNumber').get(getMeetupByUser);
 router.route('/').post(createMeetup);
 router.route('/:id/users').put(addUserToMeetup);
 router.route('/:id/users/:phoneNumber').put(updateUserStatus);
