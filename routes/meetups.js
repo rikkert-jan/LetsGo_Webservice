@@ -12,13 +12,14 @@ var getMeetups = function(req, res, next) {
     });
 };
 
-var getMeetupById = function(req, res, next) {
-    var id = req.params.id;
-    Meetup.find({ _id: id }).populate('invited').exec(function(err, meetupData) {
+var getMeetupByUser = function(req, res, next) {
+    var user = req.body.user;
+    
+    Meetup.findOne({ "created_by.phoneNumber": user, due: false }).populate('invited').exec(function(err, meetupData) {
         if (err)
             return next(err);
 
-        res.json(meetupData[0]);
+        res.json(meetupData);
     });
 }
 
@@ -28,7 +29,8 @@ var createMeetup = function(req, res, next) {
         location: req.body.location,
         dateTime: req.body.dateTime,
         description: req.body.description,
-        invited: []
+        invited: [],
+        created_by: req.body.admin
     });
 
     meetup.save(function(err) {
@@ -72,8 +74,8 @@ var updateUserStatus = function(req, res, next) {
 /* /FUNCTIONS */
 
 /* ROUTES */
-router.route('/').get(getMeetups);
-router.route('/:id').get(getMeetupById);
+//router.route('/').get(getMeetups);
+router.route('/').get(getMeetupByUser);
 router.route('/').post(createMeetup);
 router.route('/:id/users').put(addUserToMeetup);
 router.route('/:id/users/:phoneNumber').put(updateUserStatus);

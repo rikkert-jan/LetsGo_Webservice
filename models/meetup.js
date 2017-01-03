@@ -53,6 +53,12 @@ var meetupSchema = new mongoose.Schema(
             type: Date,
             default: Date.now,
             required: true
+        },
+        due:
+        {
+            type: Boolean,
+            required: true,
+            Default: false
         }
     });
 
