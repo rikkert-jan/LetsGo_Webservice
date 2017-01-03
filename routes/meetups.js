@@ -14,8 +14,8 @@ var getMeetups = function(req, res, next) {
 
 var getMeetupByUser = function(req, res, next) {
     var user = req.body.user;
-    
-    Meetup.findOne({ "created_by.phoneNumber": user, due: false }).populate('invited').exec(function(err, meetupData) {
+
+    Meetup.findOne({ invited: {$contains: {user: user }}, due: false }).populate('invited').exec(function(err, meetupData) {
         if (err)
             return next(err);
 
@@ -29,8 +29,8 @@ var createMeetup = function(req, res, next) {
         location: req.body.location,
         dateTime: req.body.dateTime,
         description: req.body.description,
-        invited: [],
-        created_by: req.body.admin
+        invited: []
+        //,created_by: req.body.admin
     });
 
     meetup.save(function(err) {
@@ -59,7 +59,7 @@ var addUserToMeetup = function(req, res, next) {
             Meetup.findOneAndUpdate({ _id: id }, { $push: { invited: userToAdd } }).exec(function(err, meetupData) {
                 if (err)
                     return next(err);
-                 
+
                 res.json(meetupData);
             });
         }
